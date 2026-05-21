@@ -145,10 +145,21 @@ axB.text(0.50, 0.99,
          "example transition matrices for lag 40 ms & 90 ms",
          ha="center", va="top", fontsize=8.5 * FONT_SCALAR, color="0.30", style="italic")
 
+# legend explaining the red/blue cell borders — placed to the right of the matrices
+_fwd_handle = plt.Rectangle((0, 0), 1, 1, fill=False, edgecolor=C_FWD, lw=2.0)
+_bwd_handle = plt.Rectangle((0, 0), 1, 1, fill=False, edgecolor=C_BWD, lw=2.0)
+axB.legend([_fwd_handle, _bwd_handle],
+           ["forward\ntransition", "backward\ntransition"],
+           loc="center left", bbox_to_anchor=(0.82, 0.45),
+           ncol=1, frameon=False, handlelength=1.2, handletextpad=0.5,
+           labelspacing=1.0, fontsize=7.5 * FONT_SCALAR)
+
 # Underlying toy model used by both panel (b) and panel (c)
 peak_lag, peak_strength, decay_ms = 40, 0.85, 22
 fwd_mask = np.zeros((4, 4), dtype=bool)
 fwd_mask[np.arange(3), np.arange(1, 4)] = True
+bwd_mask = np.zeros((4, 4), dtype=bool)
+bwd_mask[np.arange(1, 4), np.arange(3)] = True
 decay_steps = [1.00, 0.92, 0.85]      # within-lag decay across A→B, B→C, C→D
 
 
@@ -158,7 +169,7 @@ def beta_at(lag_ms, seed=None):
     for k_, w in enumerate(decay_steps):
         M[k_, k_ + 1] = fwd * w
     if seed is not None:
-        M = M + 0.04 * np.random.default_rng(seed).standard_normal((4, 4))
+        M = M + 0.15 * np.random.default_rng(seed).standard_normal((4, 4))
     return M
 
 
@@ -172,9 +183,9 @@ lags_to_show = [40, 90]
 example_tags = ["high evidence", "no evidence"]
 
 mini_w = 0.30
-gap    = 0.16
+gap    = 0.12
 total_w     = len(lags_to_show) * mini_w + (len(lags_to_show) - 1) * gap
-left_start  = (1.0 - total_w) / 2
+left_start  = 0.08
 mini_y      = 0.22
 mini_h      = 0.42
 
@@ -183,10 +194,14 @@ for k, (lag, tag) in enumerate(zip(lags_to_show, example_tags)):
     x0   = left_start + k * (mini_w + gap)
     beta = beta_at(lag, seed=int(lag))
     z_value = float(beta[fwd_mask].sum())
+    z_value_bwd = float(beta[bwd_mask].sum())
+    # hardcoded display values for the two example lags
+    hardcoded = [(2.3, 0.01), (0.25, 0.05)]
+    z_value, z_value_bwd = hardcoded[k]
     z_values.append(z_value)
 
     ax_mat = axB.inset_axes([x0, mini_y, mini_w, mini_h])
-    ax_mat.imshow(beta, cmap="RdBu_r", vmin=-0.9, vmax=0.9, aspect="equal")
+    ax_mat.imshow(beta, cmap="Greens", vmin=-0.3, vmax=0.9, aspect="equal")
 
     ax_mat.set_xticks(range(4))
     ax_mat.set_yticks(range(4))
@@ -201,11 +216,16 @@ for k, (lag, tag) in enumerate(zip(lags_to_show, example_tags)):
     ax_mat.set_xlabel(r"state at $t + \Delta t$", fontsize=8.5 * FONT_SCALAR, labelpad=2)
     ax_mat.set_ylabel(r"state at $t$",            fontsize=8.5 * FONT_SCALAR, labelpad=2)
 
-    # red borders around the correct (forward) transition cells
+    # red borders around the forward transition cells (A→B, B→C, C→D)
     for (i, j) in zip(np.arange(3), np.arange(1, 4)):
         ax_mat.add_patch(plt.Rectangle(
             (j - 0.5, i - 0.5), 1, 1, fill=False,
             edgecolor=C_FWD, lw=2.0, zorder=10))
+    # blue borders around the backward transition cells (B→A, C→B, D→C)
+    for (i, j) in zip(np.arange(1, 4), np.arange(3)):
+        ax_mat.add_patch(plt.Rectangle(
+            (j - 0.5, i - 0.5), 1, 1, fill=False,
+            edgecolor=C_BWD, lw=2.0, zorder=10))
 
     for s in ax_mat.spines.values(): s.set_linewidth(0.6)
 
@@ -216,11 +236,26 @@ for k, (lag, tag) in enumerate(zip(lags_to_show, example_tags)):
                      fontweight="normal",
                      pad=4.5)
 
-    # Σ value placed clearly below the matrix's xlabel
-    axB.text(x0 + mini_w / 2, 0.0,
+    # Σ value placed clearly below the matrix's xlabel.
+    # "forward"/"backward" label appears only once, beside the first matrix.
+    y_fwd, y_bwd = -0.09, -0.225
+    if k == 0:
+        axB.text(x0 - 0.01, y_fwd,
+                 "forward",
+                 ha="right", va="center", fontsize=6.46 * FONT_SCALAR,
+                 color=C_FWD, fontweight="bold")
+        axB.text(x0 - 0.01, y_bwd,
+                 "backward",
+                 ha="right", va="center", fontsize=6.46 * FONT_SCALAR,
+                 color=C_BWD, fontweight="bold")
+    axB.text(x0 + mini_w / 2, y_fwd,
              rf"$\sum = {z_value:+.2f}$",
-             ha="center", va="top", fontsize=11 * FONT_SCALAR,
+             ha="center", va="center", fontsize=8.075 * FONT_SCALAR,
              color=C_FWD, fontweight="bold")
+    axB.text(x0 + mini_w / 2, y_bwd,
+             rf"$\sum = {z_value_bwd:+.2f}$",
+             ha="center", va="center", fontsize=8.075 * FONT_SCALAR,
+             color=C_BWD, fontweight="bold")
 
 
 # ============================================================
@@ -228,10 +263,10 @@ for k, (lag, tag) in enumerate(zip(lags_to_show, example_tags)):
 # with the eight Σ values from panel (b) overlaid as black dots.
 # ============================================================
 axC = fig.add_subplot(gs[0, 2])
-lags = np.arange(0, 151, 1)
+lags = np.arange(0, 251, 1)
 zf = np.array([zf_clean(L) for L in lags])
 from scipy.interpolate import make_interp_spline
-_knots = np.linspace(0, 150, 12)
+_knots = np.linspace(0, 250, 12)
 _vals = 0.1 * rng.standard_normal(len(_knots))
 zb = make_interp_spline(_knots, _vals, k=3)(lags.astype(float))
 
@@ -243,17 +278,6 @@ axC.plot(lags, zb, color=C_BWD, lw=1.8, label=r"backward $Z_B$")
 # axC.text(148, threshold + 0.10, "perm. 95%", color="0.4", fontsize=7.5, ha="right")
 axC.axhline(0, color="k", lw=0.4)
 
-# gray dots at every 10-ms lag (the curve is built from these per-lag Σ values),
-# with 40 ms and 90 ms emphasised in bold black to match the matrices in panel (b).
-all_dot_lags = list(range(10, 151, 10))
-for lag in all_dot_lags:
-    if lag in lags_to_show:
-        continue
-    beta_dot = beta_at(lag, seed=int(lag))
-    zv_dot = float(beta_dot[fwd_mask].sum())
-    axC.scatter(lag, zv_dot, color="0.55", s=22, zorder=5,
-                edgecolor="white", lw=0.5)
-
 # bold black dots for the two example lags shown in panel (b)
 for lag, zv in zip(lags_to_show, z_values):
     axC.scatter(lag, zv, color="k", s=48, zorder=6,
@@ -261,13 +285,21 @@ for lag, zv in zip(lags_to_show, z_values):
 
 # annotate the typical lag (the 40 ms point)
 i_peak = lags_to_show.index(peak_lag)
-axC.annotate("replay time lag 40 ms",
+axC.annotate("replay evidence at 40 ms",
              xy=(peak_lag, z_values[i_peak]),
              xytext=(85, 2.5),
              fontsize=8.5 * FONT_SCALAR, color=C_FWD, ha="center",
              arrowprops=dict(arrowstyle="-", color=C_FWD, lw=0.6))
 
-axC.set_xlim(0, 150)
+# annotate the no-evidence example (the 90 ms point)
+i_off = lags_to_show.index(90)
+axC.annotate("no evidence at 90 ms",
+             xy=(90, z_values[i_off]),
+             xytext=(160, 0.65),
+             fontsize=8.5 * FONT_SCALAR, color="k", ha="center",
+             arrowprops=dict(arrowstyle="-", color="k", lw=0.6))
+
+axC.set_xlim(0, 250)
 axC.set_ylim(-0.6, 2.85)
 axC.legend(loc="upper right", bbox_to_anchor=(1.0, 0.88))
 axC.set_xlabel(r"time lag  $\Delta t$  (ms)")
