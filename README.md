@@ -42,7 +42,7 @@ The steps below regenerate the figures and the published probabilities from raw 
 - **Python** ≥ 3.10 (Linux/macOS; Windows works for the analysis but not the preprocessing pipeline).
 - **git** to clone this repository.
 - A client to fetch the BIDS datasets: either [GIN](https://gin.g-node.org/G-Node/gin-cli-releases) (recommended) or [DataLad](https://www.datalad.org/) (works because GIN is git-annex under the hood).
-- **Disk space**: ~205 GB for the MEG BIDS dataset and ~550 MB for the 3T fMRI BIDS dataset (much more if you also pull the original 4D BOLD NIfTIs from the upstream Wittkuhn repos — see step 4).
+- **Disk space**: ~27 GB for the MEG BIDS dataset and ~550 MB for the 3T fMRI BIDS dataset (much more if you also pull the original 4D BOLD NIfTIs from the upstream Wittkuhn repos — see step 4).
 - **Optional**: SLURM cluster access for parallel power analyses (`code/2_run_comparison/3_submit_power_analysis.sh`).
 
 ### Setup
@@ -67,22 +67,16 @@ The steps below regenerate the figures and the published probabilities from raw 
    If you also want to run the example scripts that depend on third-party algorithms, install them too:
 
    ```bash
-   pip install tdlm-python  # only if you run the TDLM example
+   pip install tdlm-python
    pip install git+https://github.com/skjerns/SODA-Python/ 
    ```
 
-3. **Download the MEG BIDS dataset** (~205 GB; includes preprocessed `derivatives/`):
+3. **Download the MEG BIDS dataset** (~27 GB; includes preprocessed `derivatives/`):
 
    ```bash
    gin get skjerns/FASTIMAGES-MEG-bids
    cd FASTIMAGES-MEG-bids
    gin get-content
-   ```
-
-   If you only need the preprocessed `.fif` files (e.g. to re-run the analysis without retraining the decoders), you can skip the ~200 GB of raw recordings:
-
-   ```bash
-   gin get-content derivatives/
    ```
 
    See the [FASTIMAGES-MEG-bids README](https://gin.g-node.org/skjerns/FASTIMAGES-MEG-bids) for alternatives (DataLad, selective download) and for re-running the preprocessing.
@@ -93,7 +87,7 @@ The steps below regenerate the figures and the published probabilities from raw 
    gin get skjerns/FASTIMAGES-3T-bids
    ```
 
-   This single tree contains the BIDS events files together with the per-subject decoding CSVs (no separate `highspeed-decoding` repo is needed any more). See the [FASTIMAGES-3T-bids README](https://gin.g-node.org/skjerns/FASTIMAGES-3T-bids) for the DataLad alternative.
+   This single tree contains the BIDS events files together with the per-subject decoding CSVs. See the [FASTIMAGES-3T-bids README](https://gin.g-node.org/skjerns/FASTIMAGES-3T-bids) for the DataLad alternative.
 
    > **Note:** `FASTIMAGES-3T-bids` is a *compressed* repackaging that drops the original 4D BOLD NIfTIs — the full analysis here only needs the events files plus the precomputed decoding probabilities, so the raw functional volumes are not shipped. If you want them (e.g. to retrain your own decoders or rerun fMRIPrep), grab the originals from Wittkuhn & Schuck 2021: [`lnnrtwttkhn/highspeed-bids`](https://gin.g-node.org/lnnrtwttkhn/highspeed-bids) for the raw BIDS data and [`lnnrtwttkhn/highspeed-decoding`](https://gin.g-node.org/lnnrtwttkhn/highspeed-decoding) for their decoding outputs. You'll need this to train your own decoders.
 
