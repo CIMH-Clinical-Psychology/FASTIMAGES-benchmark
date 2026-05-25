@@ -34,7 +34,6 @@ sns.set_context('paper', font_scale=1.5)
 round_to_base = lambda data, base: np.round(data / base) * base
 
 subjects_fmri = [f'{i:02d}' for i in range(1, 41)]
-subjects_fmri = [f'{i:02d}' for i in range(1, 31)]
 
 #%% MEG accuracies
 df_meg_acc = pd.DataFrame()

@@ -53,8 +53,8 @@ plot_dir = f'{script_dir}/../plots/'  # where to save plots
 # else just leave the below cell as you want
 if username == 'simon.kern' and '.zi.local' in host:  # VM or cluster
     cache_dir = f'{home}/Desktop/highspeed-joblib/'
-    bids_dir_meg = '/data/highspeed/FASTIMAGES-MEG-bids/'
-    bids_dir_3T = '/data/highspeed/FASTIMAGES-3T-bids/'
+    bids_dir_meg = '/data/fastimages-replication/FASTIMAGES-MEG-bids/'
+    bids_dir_3T = '/data/fastimages-replication/FASTIMAGES-3T-bids/'
     plot_dir = f'{script_dir}/../plots/'
 
 elif username=='simon' and host=='kubuntu':

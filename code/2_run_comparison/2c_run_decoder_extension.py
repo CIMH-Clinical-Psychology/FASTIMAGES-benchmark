@@ -14,7 +14,7 @@ from tqdm import tqdm
 import pandas as pd
 from meg_utils import plotting, decoding
 from bids import BIDSLayout
-from bids_utils import layout, load_localizer, make_bids_fname
+from bids_utils import load_localizer, make_bids_fname
 from meg_utils.decoding import cross_validation_across_time
 import settings
 from sklearn.linear_model import LogisticRegressionCV, LogisticRegression

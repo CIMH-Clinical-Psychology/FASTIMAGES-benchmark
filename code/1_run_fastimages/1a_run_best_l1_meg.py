@@ -194,7 +194,8 @@ def run_gridsearch_l1(subject, condition='slow', overwrite=False):
     )
     res_file.fpath.write_text(str(best_C))
 
-    print(f'{subject=} {condition=}: best C = {best_C}')
+    print(f'{subject=} {condition=}: {df_acc.accuracy.max()=} best C = {best_C}', file=sys.stderr, flush=True)
+    print(f'{subject=} {condition=}: {df_acc.accuracy.max()=} best C = {best_C}', file=sys.stdout, flush=True)
 
     return
 

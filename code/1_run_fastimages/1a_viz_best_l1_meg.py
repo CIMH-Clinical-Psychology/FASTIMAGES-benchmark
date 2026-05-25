@@ -33,7 +33,6 @@ import joblib
 from joblib import Parallel, delayed
 import warnings
 from sklearn.exceptions import ConvergenceWarning
-import telegram_send
 
 plt.rc('font', size=14)          # default text
 plt.rc('axes', titlesize=16)     # axes title

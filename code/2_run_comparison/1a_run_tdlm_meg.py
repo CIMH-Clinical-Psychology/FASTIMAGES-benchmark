@@ -144,6 +144,7 @@ for interval in intervals:
     sb_mean[interval] = np.mean(sb_trials[interval], axis=1)
 
 
+pkl_seq.fpath.parent.mkdir(parents=True, exist_ok=True)
 joblib.dump({'sf_trials': sf_trials,
              'sb_trials': sb_trials,
              'sf_mean': sf_mean,
