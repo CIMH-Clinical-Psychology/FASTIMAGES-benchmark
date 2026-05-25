@@ -8,6 +8,7 @@ data given a specific participant
 @author: Simon
 """
 import os
+import json
 import mne
 import warnings
 import joblib
@@ -106,14 +107,43 @@ def make_bids_fname(filename, scope='derivatives', subject='group',
     file += ext
     return os.path.join(folder, file)
 
+@mem.cache
+def get_bids_sfreq_MEG(task='main'):
+    """Return the BIDS recording sampling rate (Hz) shared by all MEG subjects.
+
+    Reads ``SamplingFrequency`` from each subject's
+    ``sub-XX_task-<task>_meg.json`` sidecar. Raises ValueError if the
+    subjects disagree."""
+    sfreqs = {}
+    for subject in layout_MEG.subjects:
+        sidecars = layout_MEG.get(subject=subject, task=task,
+                                  suffix='meg', extension='json')
+        if not sidecars:
+            raise FileNotFoundError(
+                f'No _meg.json sidecar for sub-{subject} task-{task}')
+        with open(sidecars[0]) as f:
+            sfreqs[subject] = json.load(f)['SamplingFrequency']
+    unique = set(sfreqs.values())
+    if len(unique) != 1:
+        raise ValueError(
+            f'Inconsistent BIDS SamplingFrequency across subjects: {sfreqs}')
+    return unique.pop()
+
+
 def tsv2events(df_events, sfreq=100):
     """convert behavioural TSV trigger events to mne events format
 
     MNE BIDS pipeline resamples the trigger channel and therefore, some
     triggers are missing or shifted by a bit. thereofre take the original
-    from the behavioural file and convert to events format of MNE"""
+    from the behavioural file and convert to events format of MNE.
+
+    The 'sample' column in events.tsv is in the raw BIDS recording's
+    native sampling rate (read from the ``_meg.json`` sidecars via
+    ``get_bids_sfreq_MEG``). Sample indices are rescaled to the target
+    ``sfreq`` used downstream for epoching."""
+    bids_sfreq = get_bids_sfreq_MEG()
     events = np.zeros([len(df_events), 3])
-    factor = 1000/100  # factor to downsample the sample number
+    factor = bids_sfreq / sfreq
     events[:, 0] = np.round(df_events['sample'] / factor)
     events[:, 2] = df_events.value
     return events.astype(int)
