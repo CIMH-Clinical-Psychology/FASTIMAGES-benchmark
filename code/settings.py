@@ -79,6 +79,11 @@ if NO_PRELOADING:
     print('Not preloading MEG BIDS as NO_PRELOADING env var was set')
 elif 'bids_dir_meg' in locals():
     bids_dir_meg = os.path.abspath(bids_dir_meg)
+    if not os.path.isdir(bids_dir_meg):
+        raise FileNotFoundError(
+            f'bids_dir_meg does not exist: {bids_dir_meg}\n'
+            f'Edit code/settings.py and set bids_dir_meg to the path of your '
+            f'FASTIMAGES-MEG-bids download (see README §"Configure paths").')
     layout_MEG = BIDSLayout(bids_dir_meg, derivatives=True)
     layout_MEG.subjects_all = [x for x in layout_MEG.get_subjects() if (not x in ['emptyroom', 'group'])]
     layout_MEG.subjects = [x for x in layout_MEG.subjects_all]
@@ -94,6 +99,11 @@ if NO_PRELOADING:
     print('Not preloading fMRI BIDS as NO_PRELOADING env var was set')
 elif 'bids_dir_3T' in locals():
     bids_dir_3T = os.path.abspath(bids_dir_3T)
+    if not os.path.isdir(bids_dir_3T):
+        raise FileNotFoundError(
+            f'bids_dir_3T does not exist: {bids_dir_3T}\n'
+            f'Edit code/settings.py and set bids_dir_3T to the path of your '
+            f'FASTIMAGES-3T-bids download (see README §"Configure paths").')
     derivatives_dir_3T = os.path.join(bids_dir_3T, 'derivatives')
     os.makedirs(derivatives_dir_3T, exist_ok=True)
     # create dataset_description.json if missing (required by pybids for derivatives)

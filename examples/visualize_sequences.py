@@ -146,3 +146,9 @@ fig.legend(handles=handles, title='serial position',
 
 sns.despine(fig)
 fig.tight_layout(rect=[0, 0, 0.88, 1])
+
+out_dir = os.path.normpath(os.path.join(HERE, '..', 'plots'))
+os.makedirs(out_dir, exist_ok=True)
+out_path = os.path.join(out_dir, 'example_visualize_sequences.png')
+fig.savefig(out_path, dpi=150)
+print(f'saved figure to {out_path}')

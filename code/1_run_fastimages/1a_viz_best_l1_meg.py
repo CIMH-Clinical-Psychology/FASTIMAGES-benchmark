@@ -61,7 +61,7 @@ files_acc = deriv.get(task='main',
                  invalid_filters='allow')
 
 assert len(files_acc) > 0, 'no L1-gridsearch accuracy files found — run 1a_run_best_l1_meg.py first'
-assert len(files_proba)==30
+assert len(files_proba)==30, f'expected 30 L1-gridsearch probability files, got {len(files_proba)}'
 
 df_acc = pd.concat([pd.read_pickle(f) for f in files_acc], ignore_index=True)
 df_proba = pd.concat([pd.read_pickle(f) for f in tqdm(files_proba, 'loading csvs')], ignore_index=True)

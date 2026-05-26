@@ -8,6 +8,7 @@ the decoding time courses become overlapping
 
 @author: simon.kern
 """
+import sys; sys.path.append('..')
 import mne
 import sklearn
 from tqdm import tqdm

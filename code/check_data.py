@@ -33,6 +33,10 @@ for subject in tqdm(layout.subjects, desc='checking participants'):
         files = layout.get(subject=subject, suffix='raw',
                     scope='derivatives', proc='clean',
                     task=task, return_type='filenames')
+        # rest1/rest2 derivatives are not part of the released
+        # FASTIMAGES-MEG-bids dataset; skip silently if absent
+        if task in ('rest1', 'rest2') and len(files) == 0:
+            continue
         assert len(files)==1, f'missing or too many files! {subject=} {task=} {files=}'
 
     files = layout.get(subject=subject, return_type='filenames', datatype='beh',

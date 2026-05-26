@@ -129,3 +129,9 @@ ax.legend(title='speed', fontsize=9)
 
 sns.despine(fig)
 fig.tight_layout()
+
+out_dir = os.path.normpath(os.path.join(HERE, '..', 'plots'))
+os.makedirs(out_dir, exist_ok=True)
+out_path = os.path.join(out_dir, 'example_run_tdlm_soda.png')
+fig.savefig(out_path, dpi=150)
+print(f'saved figure to {out_path}')
