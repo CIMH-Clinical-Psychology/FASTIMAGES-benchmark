@@ -44,7 +44,7 @@ tmin = -0.2
 tmax = 0.8
 ex_per_fold = 8
 
-#%% Load gridsearch CSVs from 1a
+#%% Load gridsearch CSVs from 1a (optional — fall back to settings defaults)
 
 deriv = layout.derivatives['derivatives']
 files_acc = deriv.get(task='main',
@@ -54,40 +54,56 @@ files_acc = deriv.get(task='main',
                       suffix='accuracy',
                       invalid_filters='allow')
 
-assert len(files_acc) == 30, f'Expected 30 files, got {len(files_acc)}'
+if len(files_acc) == 30:
+    print(f'Loading {len(files_acc)} accuracy files...')
+    df_acc = pd.concat([pd.read_pickle(f) for f in tqdm(files_acc, desc='loading csvs')],
+                       ignore_index=True)
 
-print(f'Loading {len(files_acc)} accuracy files...')
-df_acc = pd.concat([pd.read_pickle(f) for f in tqdm(files_acc, desc='loading csvs')],
-                   ignore_index=True)
+    #%% Determine best C and timepoint per subject
 
-#%% Determine best C and timepoint per subject
+    # Get unique timepoints (assumes same for all subjects)
+    timepoints = np.sort(df_acc.timepoint.unique())
 
-# Get unique timepoints (assumes same for all subjects)
-timepoints = np.sort(df_acc.timepoint.unique())
+    best_params = {}
+    for subj, df_subj in df_acc.groupby('subject'):
+        # Best C: highest mean accuracy across all timepoints
+        mean_acc_per_C = df_subj.groupby('C').accuracy.mean()
+        best_C = mean_acc_per_C.idxmax()
 
-best_params = {}
-for subj, df_subj in df_acc.groupby('subject'):
-    # Best C: highest mean accuracy across all timepoints
-    mean_acc_per_C = df_subj.groupby('C').accuracy.mean()
-    best_C = mean_acc_per_C.idxmax()
+        # Best timepoint: highest mean accuracy across all C values
+        mean_acc_per_t = df_subj.groupby('timepoint').accuracy.mean()
+        best_t = round(mean_acc_per_t.idxmax()*2)/2
 
-    # Best timepoint: highest mean accuracy across all C values
-    mean_acc_per_t = df_subj.groupby('timepoint').accuracy.mean()
-    best_t = round(mean_acc_per_t.idxmax()*2)/2
+        # Also get the timepoint index
+        best_t_idx = np.where(timepoints == best_t)[0][0]
 
-    # Also get the timepoint index
-    best_t_idx = np.where(timepoints == best_t)[0][0]
+        best_params[subj] = {
+            'best_C': best_C,
+            'best_t': best_t,
+            'best_t_idx': best_t_idx,
+        }
 
-    best_params[subj] = {
-        'best_C': best_C,
-        'best_t': best_t,
-        'best_t_idx': best_t_idx,
-    }
-
-# Calculate mean best values across subjects
-mean_best_C = np.round(2*np.mean([p['best_C'] for p in best_params.values()]))/2
-mean_best_t = np.mean([p['best_t'] for p in best_params.values()])
-mean_best_t_idx = int(np.round(np.mean([p['best_t_idx'] for p in best_params.values()])))
+    # Calculate mean best values across subjects
+    mean_best_C = np.round(2*np.mean([p['best_C'] for p in best_params.values()]))/2
+    mean_best_t = np.mean([p['best_t'] for p in best_params.values()])
+    mean_best_t_idx = int(np.round(np.mean([p['best_t_idx'] for p in best_params.values()])))
+else:
+    warnings.warn(
+        f'Gridsearch results not found ({len(files_acc)}/30) — falling back to '
+        f'settings defaults C={settings.DEFAULT_C_MEG}, '
+        f't={settings.DEFAULT_T_MS_MEG} ms. Run 1a_run_best_l1_meg.py for '
+        f'subject-specific hyperparameters.',
+        stacklevel=2,
+    )
+    timepoints = np.arange(int(tmin * 1000), int(tmax * 1000) + 10, 10)
+    default_t_idx = int(np.where(timepoints == settings.DEFAULT_T_MS_MEG)[0][0])
+    best_params = {subj: {'best_C': settings.DEFAULT_C_MEG,
+                          'best_t': settings.DEFAULT_T_MS_MEG,
+                          'best_t_idx': default_t_idx}
+                   for subj in layout.subjects}
+    mean_best_C = settings.DEFAULT_C_MEG
+    mean_best_t = settings.DEFAULT_T_MS_MEG
+    mean_best_t_idx = default_t_idx
 
 print(f'\nBest parameters:')
 print(f'  Mean best C: {mean_best_C:.4f}')

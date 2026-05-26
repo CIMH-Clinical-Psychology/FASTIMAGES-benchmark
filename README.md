@@ -100,7 +100,7 @@ The analysis is two phases, run in order from inside the relevant subfolder. Scr
 **Phase 1 — train MEG decoders and apply them to the fast-sequence trials** (`code/1_run_fastimages/`):
 
 ```bash
-python 1a_run_best_l1_meg.py             # L1 gridsearch on localizer trials
+python 1a_run_best_l1_meg.py             # L1 gridsearch on localizer trials (up to 10 h, see note below)
 python 1a_viz_best_l1_meg.py             # plot the L1 gridsearch
 python 1b_classifier_generalization.py   # temporal generalization matrices (TGMs)
 python 1b_viz_classifier_generalization.py  # visualize the classifier generalization as heatmap
@@ -109,6 +109,8 @@ python 1c_viz_localizer.py               # MEG vs fMRI localizer decoding figure
 python 2_run_analysis_fast_images.py     # aggregate MEG accuracies vs fMRI
 python 3_run_visualize_sequences.py      # per-position probability traces
 ```
+
+> **Faster prototyping:** `1a_run_best_l1_meg.py` is the expensive step (up to 10 h on a single workstation). If it has not been run, `1c_train_localizer_meg.py` falls back to the group-level defaults `DEFAULT_C_MEG` and `DEFAULT_T_MS_MEG` defined in `code/settings.py` and emits a warning. This skips per-subject hyperparameter tuning but lets the rest of the pipeline run end-to-end; rerun `1a` + `1c` for the full analysis.
 
 > **Note:** Phase 2 reads pickled intermediate outputs produced by Phase 1, so Phase 1 must have been run end-to-end (for the same `bids_dir_meg`) before Phase 2 will work.
 

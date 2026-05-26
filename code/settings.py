@@ -144,6 +144,13 @@ intervals_3T = [32, 64, 128, 512, 2048]
 subjects_3T = [f'{i:02d}' for i in range(1, 41)]   # 40 participants
 subjects_MEG = [f'{i:02d}' for i in range(1, 31)]  # 30 participants
 
+# Decoder defaults used by 1c_train_localizer_meg.py when the 1a L1
+# gridsearch (up to ~10 h on a single workstation) has not been run.
+# These are reasonable group-level values for faster prototyping; for
+# the full analysis run the gridsearch first.
+DEFAULT_C_MEG = 9.1     # logistic regression inverse-regularization strength
+DEFAULT_T_MS_MEG = 150  # timepoint (ms after stimulus onset) for training
+
 normalization = 'lambda x: x/x.mean(0)'  # normalization to be used on the probability vectors
 tr_duration = 1.25  # TR duration in seconds
 
