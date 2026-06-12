@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners -->
+  <meta name="description" content="FASTIMAGES: a combined MEG and fMRI benchmark dataset to validate and compare human replay-detection methods (TDLM and SODA) against a known ground truth.">
+  <meta property="og:title" content="FASTIMAGES: Validating replay detection methods in human neuroimaging"/>
+  <meta property="og:description" content="A combined MEG + fMRI benchmark dataset with known neural sequences to validate replay detection methods (TDLM and SODA)."/>
+  <meta property="og:image" content="./images/figure2-experiment.png"/>
+
+  <meta name="twitter:title" content="FASTIMAGES: Validating replay detection methods in human neuroimaging">
+  <meta name="twitter:description" content="A combined MEG + fMRI benchmark dataset with known neural sequences to validate replay detection methods (TDLM and SODA).">
+  <meta name="twitter:image" content="./images/figure2-experiment.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:url" content="https://cimh-clinical-psychology.github.io/FASTIMAGES-benchmark/"/>
+
+  <title>FASTIMAGES: Validating replay detection methods in human neuroimaging</title>
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">FASTIMAGES: Validating replay detection methods in human neuroimaging using a combined MEG and fMRI dataset</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">
+                <a href="https://skjerns.de" target="_blank">Simon Kern</a><sup>1,*</sup>,</span>
+              <span class="author-block">
+                <a href="https://lennartwittkuhn.com" target="_blank">Lennart Wittkuhn</a><sup>2</sup>,</span>
+              <span class="author-block">Elena Buss<sup>1</sup>,</span>
+              <span class="author-block">
+                <a href="https://scholar.google.de/citations?user=na6A-zkAAAAJ&hl=en" target="_blank">Nicolas Schuck</a><sup>2</sup>,</span>
+              <span class="author-block">
+                <a href="https://gaislab.info" target="_blank">Gordon B. Feld</a><sup>1</sup></span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>Central Institute of Mental Health, Medical Faculty Mannheim, University of Heidelberg<br></span>
+              <span class="author-block"><sup>2</sup>University of Hamburg &amp; Max Planck UCL Centre for Computational Psychiatry and Aging Research, Berlin<br></span>
+              <span class="author-block"><sup>*</sup>Corresponding author</span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- Preprint link (placeholder - update with bioRxiv DOI) -->
+                <span class="link-block">
+                  <a href="#" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Preprint</span>
+                </a>
+              </span>
+
+              <!-- Github link -->
+              <span class="link-block">
+                <a href="https://github.com/CIMH-Clinical-Psychology/FASTIMAGES-benchmark" target="_blank"
+                class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                  <i class="fab fa-github"></i>
+                </span>
+                <span>Code</span>
+              </a>
+            </span>
+
+            <!-- Dataset link -->
+            <span class="link-block">
+              <a href="https://github.com/CIMH-Clinical-Psychology/FASTIMAGES-benchmark" target="_blank"
+              class="external-link button is-normal is-rounded is-dark">
+              <span class="icon">
+                <i class="fas fa-database"></i>
+              </span>
+              <span>Dataset</span>
+            </a>
+          </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+Studies in rodents and humans using invasive electrophysiology have established that <strong>neural replay</strong> is a ubiquitous phenomenon associated with memory, planning and decision making. Yet invasive recording in humans remains difficult, so we need reliable approaches to detect replay <strong>non-invasively</strong>. Several non-invasive methods have been proposed, but a full comparative validation against a known ground-truth signal has been missing.
+          </p>
+          <p>
+We present <strong>FASTIMAGES</strong>, a benchmark dataset from seventy participants with parallel <strong>fMRI (n&nbsp;=&nbsp;40, previously published)</strong> and <strong>MEG (n&nbsp;=&nbsp;30)</strong> recordings containing known neural sequences evoked by fast visual stimulation, alongside functional localizer trials. Sequences of five visual stimuli were shown at onset-to-onset intervals of 132, 164, 228 and 612&nbsp;ms. Using these data we evaluate two existing sequence-detection methods: <strong>Temporally Delayed Linear Modelling (TDLM)</strong> for MEG and <strong>Slope Order Dynamic Analysis (SODA)</strong> for fMRI. Both methods excel in their native modality with comparable effect sizes under these idealized conditions, whereas <strong>cross-modality transfer remains challenging</strong>. FASTIMAGES provides data with known, clearly expressed sequences and can serve as a shared reference point to benchmark and validate future sequence-detection methods.
+          </p>
+        <a href="#results-summary" style="color:#3273dc; text-decoration: underline;">Jump to Results Summary &darr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+<!-- Method explainer (Figure 1) -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Two methods for non-invasive sequence detection</h2>
+        <div class="content has-text-justified">
+          <p>
+Both methods first use a brain decoder to estimate, at every time point, how strongly each stimulus is currently "reactivated", and then test whether those reactivations follow an expected sequence.
+          </p>
+          <ul>
+            <li><strong>TDLM</strong> (developed for MEG) works like a Granger causality: it tests whether reactivation of one item predicts reactivation of the next item at a constant <em>time lag</em>, yielding a "sequenceness" score per lag. It assumes brief, temporally separated reactivation peaks and a high sampling rate.</li>
+            <li><strong>SODA</strong> (developed for fMRI) exploits the slow, overlapping hemodynamic response: it regresses item probabilities onto their sequence position at each measurement, producing a slope that is expected to be negative during an <em>onset</em> period and positive during an <em>offset</em> period.</li>
+          </ul>
+          <figure>
+            <img src="./images/figure1-explainer.png" alt="Schematic of TDLM and SODA" style="max-width:100%">
+            <figcaption>Figure 1. Visualization of TDLM (top) and SODA (bottom), each shown within its native measurement modality.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Experiment overview (Figure 2) -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">The FASTIMAGES paradigm</h2>
+        <div class="content has-text-justified">
+          <p>
+Seventy participants viewed grayscale images from five categories (house, cat, chair, face, shoe) in two task types:
+          </p>
+          <ol>
+            <li><strong>Slow localizer trials</strong> &mdash; single images shown for 500&nbsp;ms, used to train per-category decoders. Participants reported upside-down images as an attention check.</li>
+            <li><strong>Fast sequence trials</strong> &mdash; all five images shown in rapid succession (100&nbsp;ms each) with a fixed inter-stimulus interval per trial, creating a <strong>known ground-truth neural sequence</strong>. Participants reported the serial position of a cued image.</li>
+          </ol>
+          <figure>
+            <img src="./images/figure2-experiment.png" alt="Schematic of the FASTIMAGES paradigm and fMRI/MEG task differences" style="max-width:100%">
+            <figcaption>Figure 2. The two paradigm types and the differences between the fMRI and MEG implementations. Sequence onset-to-onset intervals were 132, 164, 228 and 612&nbsp;ms (the fMRI additionally recorded a slower condition).</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-------------->
+<!-- RESULTS  -->
+<!-------------->
+<br>
+<h1 class="title is-1 publication-title hero is-centered has-text-centered" id="results-summary">Results summary</h1>
+
+<!-- ================= Section 1: Dataset ================= -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 is-centered has-text-centered">A benchmark with clearly expressed neural sequences</h2>
+
+    <div class="content">
+      <h3 class="title is-4 is-centered has-text-centered">Images are robustly decodable in both modalities</h3>
+      <p>Cross-validated decoders trained at each time point clearly surpassed chance (20%): peak accuracy reached <strong>~55% in MEG</strong> (around 150&nbsp;ms after onset, with a rapid rise and slow decay) and <strong>~70% in fMRI</strong> (peaking around 4&nbsp;s, reflecting the slower hemodynamic response). During the fast sequences, the presented order is visible by eye in the averaged decoded probabilities &mdash; even in the fastest MEG condition.</p>
+      <figure>
+        <img src="./images/figure3-decoding.png" alt="Localizer and sequence decoding for MEG and fMRI" style="max-width:100%">
+        <figcaption>Figure 3. Decoding of the slow (localizer) and fast (sequence) trials. A) Localizer decoding accuracy across time. B) Decoded probabilities during sequences, aligned on image onset, split by serial position and by speed. C) Mean decoded probabilities during the fast sequences, with the presented order visible in the staggered peaks. MEG (upper) and fMRI (lower).</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= Section 2: Benchmark ================= -->
+<section class="section has-background-light">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 is-centered has-text-centered">Benchmarking TDLM and SODA</h2>
+
+    <!-- TDLM on MEG -->
+    <div class="content">
+      <h3 class="title is-4 is-centered has-text-centered">TDLM detects every sequence speed in MEG</h3>
+      <p>Applied to the MEG sequence trials, TDLM produced clear <strong>sequenceness peaks at the expected time lag in all four speed conditions</strong>, surpassing significance for a t-test, a sign-flip permutation test and a cluster-permutation test. Between-participant variance was high, however: only about half of participants reached individual significance, and sequenceness was strongly correlated with each participant's <strong>decoder quality</strong> (r&nbsp;=&nbsp;0.70) but <strong>not</strong> with their behavioural performance. This underlines that TDLM should be interpreted at the group, not the individual, level.</p>
+      <figure>
+        <img src="./images/figure4-tdlm-meg.png" alt="TDLM results on MEG data" style="max-width:100%">
+        <figcaption>Figure 4. TDLM on MEG. A) Mean sequenceness across speed conditions, with peaks at the expected lag. B) Sequenceness correlates with decoding accuracy (left) but not behaviour (right). C) Group-level forward/backward sequenceness with three statistical tests. D) Per-participant forward sequenceness. E) Per-trial and per-participant sequenceness at the expected lag.</figcaption>
+      </figure>
+    </div>
+
+    <!-- SODA on fMRI -->
+    <div class="content">
+      <h3 class="title is-4 is-centered has-text-centered">SODA recovers sequences in fMRI, driven by the offset period</h3>
+      <p>Applied to the fMRI sequence trials, SODA showed the characteristic <strong>onset (negative) and offset (positive) slope dynamics</strong>. The <strong>offset period was significant in all speed conditions</strong>, while the onset period was harder to detect and only reached significance for the slower speeds. As in MEG, slope magnitude correlated with decoder quality but not behaviour. Notably, the theoretically derived onset/offset windows only partially overlapped the empirically significant clusters.</p>
+      <figure>
+        <img src="./images/figure5-soda-fmri.png" alt="SODA results on fMRI data" style="max-width:100%">
+        <figcaption>Figure 5. SODA on fMRI. A) Regression slopes over time per speed condition. B) Correlation of slopes with decoding accuracy and behaviour. C) Group-level slopes with onset/offset periods and three statistical tests. D) Per-participant slopes. E) Per-trial and per-participant onset and offset slopes.</figcaption>
+      </figure>
+    </div>
+
+    <!-- Behaviour under contrived conditions -->
+    <div class="content">
+      <h3 class="title is-4 is-centered has-text-centered">How each method behaves when its assumptions are bent</h3>
+      <p>To build intuition, we ran both methods on contrived examples that partly violate their assumptions. TDLM produces a sharp peak only when the inter-item lag is constant, and smears or vanishes when lags vary, items are missing, or the order is wrong. SODA, because it is dominated by the first and last items of the sequence, can produce a convincing onset/offset signature even from partial sequences &mdash; making it robust to outliers but harder to interpret directionally.</p>
+      <figure>
+        <img src="./images/figure6-examples.png" alt="TDLM and SODA behaviour under contrived conditions" style="max-width:100%">
+        <figcaption>Figure 6. Behaviour of TDLM (left) and SODA (right) under controlled, assumption-bending scenarios.</figcaption>
+      </figure>
+    </div>
+
+    <!-- Cross-modality transfer -->
+    <div class="content">
+      <h3 class="title is-4 is-centered has-text-centered">Cross-modality transfer is challenging</h3>
+      <p>Each method struggles in the other's modality. <strong>SODA on MEG</strong> finds onset peaks but no genuine offset phase, because MEG reactivations decay too fast to overlap &mdash; though this very property makes SODA a promising candidate for detecting fast "clustered" reactivation. <strong>TDLM on fMRI</strong> cannot recover any of the benchmark sequences, since the TR (1.25&nbsp;s) is slower than the sequences; it only succeeds for a very slow 2148&nbsp;ms condition, and only when trials are averaged.</p>
+      <div class="columns">
+        <div class="column">
+          <figure>
+            <img src="./images/figure7-soda-meg.svg" alt="SODA applied to MEG data" style="max-width:100%">
+            <figcaption>Figure 7. SODA applied to MEG sequences. Observable offset periods stem from singular strong activations rather than genuine sequence replay.</figcaption>
+          </figure>
+        </div>
+        <div class="column">
+          <figure>
+            <img src="./images/figure8-tdlm-fmri.svg" alt="TDLM applied to fMRI data" style="max-width:100%">
+            <figcaption>Figure 8. TDLM applied to fMRI. No benchmark speed is recoverable; only the very slow 2148&nbsp;ms condition reaches significance (right).</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+
+    <!-- Effect size & power -->
+    <div class="content">
+      <h3 class="title is-4 is-centered has-text-centered">Comparable effect sizes and power in their native modality</h3>
+      <p>Across speed conditions, TDLM showed stable <strong>medium effect sizes</strong> (mean Cohen's d&nbsp;=&nbsp;0.77). SODA effect sizes were speed- and period-dependent (offset mean d&nbsp;=&nbsp;0.9), and a combined onset+offset measure markedly increased both effect size and power. A bootstrap power analysis indicated that roughly <strong>20 participants and 20 trials</strong> are needed for 80% power when the expected lag or period is known. When timing is unknown, the <strong>cluster-permutation test was consistently more powerful</strong> than a sign-flip permutation test &mdash; our recommended best practice.</p>
+      <figure>
+        <img src="./images/figure9-power.png" alt="Effect sizes and power analysis for TDLM and SODA" style="max-width:100%">
+        <figcaption>Figure 9. Effect sizes and bootstrap power. A) Between-participant Cohen's d. B) 80% power lines. C&ndash;E) Power contour plots across bootstrapped participants and trials for TDLM, SODA, and SODA's combined measure.</figcaption>
+      </figure>
+    </div>
+
+    <!-- Conclusion -->
+    <div class="content">
+      <h2 class="title is-3 is-centered has-text-centered">Conclusion</h2>
+      <p>FASTIMAGES validates that <strong>TDLM and SODA each perform well when the data meet their assumptions</strong> &mdash; temporally resolved peaks for TDLM (MEG) and overlapping responses for SODA (fMRI) &mdash; but that they do <strong>not transfer readily</strong> to the other modality. The two methods are therefore complementary rather than interchangeable. Across both, <strong>decoder quality emerged as the dominant limiting factor</strong>, suggesting clear room for improvement. Because the benchmark uses stimulus-driven, time-locked sequences decoded by classifiers trained on the same stimuli, it represents an <strong>upper bound</strong> on detection sensitivity.</p>
+      <p>We suggest using FASTIMAGES as:</p>
+      <ul>
+        <li>a <strong>sanity check</strong> for existing replay-detection pipelines,</li>
+        <li>a <strong>testbed</strong> for developing and calibrating new methods,</li>
+        <li>and a <strong>shared reference point</strong> for making sequence detection in human neuroimaging more robust and reproducible.</li>
+      </ul>
+      <p>The probability time series and dataset are available on
+        <a href="https://github.com/CIMH-Clinical-Psychology/FASTIMAGES-benchmark" target="_blank">GitHub</a>.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- Footer -->
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  </body>
+  </html>
