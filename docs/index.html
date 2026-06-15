@@ -67,7 +67,7 @@
               <div class="publication-links">
                 <!-- Preprint link -->
                 <span class="link-block">
-                  <a href="https://www.biorxiv.org/content/10.1101/2025.06.11.658835v3" target="_blank"
+                  <a href="https://www.biorxiv.org/content/10.64898/2026.05.26.727586v1.full-text" target="_blank"
                   class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                     <i class="fas fa-file-pdf"></i>
@@ -123,10 +123,7 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-Studies in rodents and humans using invasive electrophysiology have established that <strong>neural replay</strong> is a ubiquitous phenomenon associated with memory, planning and decision making. Yet invasive recording in humans remains difficult, so we need reliable approaches to detect replay <strong>non-invasively</strong>. Several non-invasive methods have been proposed, but a full comparative validation against a known ground-truth signal has been missing.
-          </p>
-          <p>
-We present <strong>FASTIMAGES</strong>, a benchmark dataset from seventy participants with parallel <strong>fMRI (n&nbsp;=&nbsp;40, previously published)</strong> and <strong>MEG (n&nbsp;=&nbsp;30)</strong> recordings containing known neural sequences evoked by fast visual stimulation, alongside functional localizer trials. Sequences of five visual stimuli were shown at onset-to-onset intervals of 132, 164, 228 and 612&nbsp;ms. Using these data we evaluate two existing sequence-detection methods: <strong>Temporally Delayed Linear Modelling (TDLM)</strong> for MEG and <strong>Slope Order Dynamic Analysis (SODA)</strong> for fMRI. Both methods excel in their native modality with comparable effect sizes under these idealized conditions, whereas <strong>cross-modality transfer remains challenging</strong>. FASTIMAGES provides data with known, clearly expressed sequences and can serve as a shared reference point to benchmark and validate future sequence-detection methods.
+Detecting <strong>neural replay non-invasively</strong> in humans is hard, and the methods used for it have lacked a validation against a known ground truth. We present <strong>FASTIMAGES</strong>, a benchmark dataset of seventy participants with parallel <strong>fMRI (n&nbsp;=&nbsp;40)</strong> and <strong>MEG (n&nbsp;=&nbsp;30)</strong> recordings containing known neural sequences evoked by fast visual stimulation. Using these data we evaluate two sequence-detection methods &mdash; <strong>Temporally Delayed Linear Modelling (TDLM)</strong> for MEG and <strong>Slope Order Dynamic Analysis (SODA)</strong> for fMRI. Both excel in their native modality with comparable effect sizes, whereas <strong>cross-modality transfer remains challenging</strong>. FASTIMAGES offers data with known, clearly expressed sequences as a shared reference point to validate future methods.
           </p>
         <a href="#results-summary" style="color:#3273dc; text-decoration: underline;">Jump to Results Summary &darr;</a>
         </div>
@@ -264,7 +261,7 @@ Seventy participants viewed grayscale images from five categories (house, cat, c
     <!-- Effect size & power -->
     <div class="content">
       <h3 class="title is-4 is-centered has-text-centered">Comparable effect sizes and power in their native modality</h3>
-      <p>Across speed conditions, TDLM showed stable <strong>medium effect sizes</strong> (mean Cohen's d&nbsp;=&nbsp;0.77). SODA effect sizes were speed- and period-dependent (offset mean d&nbsp;=&nbsp;0.9), and a combined onset+offset measure markedly increased both effect size and power. A bootstrap power analysis indicated that roughly <strong>20 participants and 20 trials</strong> are needed for 80% power when the expected lag or period is known. When timing is unknown, the <strong>cluster-permutation test was consistently more powerful</strong> than a sign-flip permutation test &mdash; our recommended best practice.</p>
+      <p>Across speed conditions, TDLM showed stable <strong>medium effect sizes</strong> (mean Cohen's d&nbsp;=&nbsp;0.77). SODA effect sizes were speed- and period-dependent (offset mean d&nbsp;=&nbsp;0.9), and a combined onset+offset measure markedly increased both effect size and power. In this idealized, stimulus-driven benchmark &mdash; an <strong>absolute best-case scenario</strong> &mdash; a bootstrap analysis suggested that even roughly <strong>20 participants and 20 trials</strong> are needed to reach 80% power, and only when the expected lag or period is known in advance. Real replay studies, with weaker, non-time-locked signals and unknown timing, should expect to need <strong>substantially more</strong>. When timing is unknown, the <strong>cluster-permutation test was consistently more powerful</strong> than a sign-flip permutation test &mdash; our recommended best practice.</p>
       <figure>
         <img src="./images/figure9-power.png" alt="Effect sizes and power analysis for TDLM and SODA" style="max-width:100%">
         <figcaption>Figure 9. Effect sizes and bootstrap power. A) Between-participant Cohen's d. B) 80% power lines. C&ndash;E) Power contour plots across bootstrapped participants and trials for TDLM, SODA, and SODA's combined measure.</figcaption>
